@@ -1,8 +1,10 @@
 const handleProfile = (e) => {
   e.preventDefault();
+  
+  $("#popupMessage").animate({width:'hide'}, 350);
 };
 
-const ProfileInfo = () => {
+const ProfileInfo = (props) => {
   return (
     <div className="userInfo">
       <h1 className="usernameDisplay">Username's Pieces</h1>
@@ -55,6 +57,12 @@ const setup = function(csrf){
   );
   
   loadPiecesFromServer();
+};
+
+const getToken = () => {
+  sendAjax('GET', '/getToken', null, (result) => {
+    setup(result.csrfToken);
+  });
 };
 
 $(document).ready(function() {

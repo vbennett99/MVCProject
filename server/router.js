@@ -7,7 +7,10 @@ const router = (app) => {
   app.post('/login', mid.requiresSecure, mid.requiresLogout, controllers.Account.login);
   app.post('/signup', mid.requiresSecure, mid.requiresLogout, controllers.Account.signup);
   app.get('/logout', mid.requiresLogin, controllers.Account.logout);
-  app.get('/profile', mid.requiresLogin, controllers.Profile.profilePage);
+  app.get('/profile', mid.requiresSecure, mid.requiresLogin, controllers.Profile.profilePage);
+  app.get('/getPieces', mid.requiresSecure, mid.requiresLogin, controllers.Profile.getPieces);
+  app.get('/upload', mid.requiresSecure, mid.requiresLogin, controllers.Upload.uploadPage);
+  app.post('/upload', mid.requiresSecure, mid.requiresLogin, controllers.Upload.make);
   app.get('/', mid.requiresSecure, mid.requiresLogout, controllers.Account.loginPage);
 };
 

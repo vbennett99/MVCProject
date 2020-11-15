@@ -15,7 +15,7 @@ const PieceSchema = new mongoose.Schema({
     set: setTitle,
   },
   tags: {
-    type: JSON,
+    type: String,
   },
   body: {
     type: String,

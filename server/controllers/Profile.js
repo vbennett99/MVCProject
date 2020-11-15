@@ -6,7 +6,7 @@ const profilePage = (req, res) => {
   Pieces.PieceModel.findByOwner(req.session.account._id, (err, docs) => {
     if (err) {
       console.log(err);
-      return res.status(400).json({ error: 'An error occured ' });
+      return res.status(400).json({ error: 'An error occured' });
     }
 
     return res.render('profile', { csrfToken: req.csrfToken(), pieces: docs });
