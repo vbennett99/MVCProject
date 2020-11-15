@@ -1,114 +1,59 @@
 "use strict";
 
-var handleDomo = function handleDomo(e) {
+var handleProfile = function handleProfile(e) {
   e.preventDefault();
-  $("#domoMessage").animate({
-    width: 'hide'
-  }, 350);
-
-  if ($("#domoName").val() == '' || $("#domoAge").val() == '' || $("#domoToy").val() == '') {
-    handleError("RAWR! All fields are required");
-    return false;
-  }
-
-  sendAjax('POST', $("#domoForm").attr("action"), $("#domoForm").serialize(), function () {
-    loadDomosFromServer();
-  });
-  return false;
 };
 
-var DomoForm = function DomoForm(props) {
-  return /*#__PURE__*/React.createElement("form", {
-    id: "domoForm",
-    onSubmit: handleDomo,
-    name: "domoForm",
-    action: "/maker",
-    method: "POST",
-    className: "domoForm"
-  }, /*#__PURE__*/React.createElement("label", {
-    htmlFor: "name"
-  }, "Name: "), /*#__PURE__*/React.createElement("input", {
-    id: "domoName",
-    type: "text",
-    name: "name",
-    placeholder: "Domo Name"
-  }), /*#__PURE__*/React.createElement("label", {
-    htmlFor: "age"
-  }, "Age: "), /*#__PURE__*/React.createElement("input", {
-    id: "domoAge",
-    type: "text",
-    name: "age",
-    placeholder: "Domo Age"
-  }), /*#__PURE__*/React.createElement("label", {
-    htmlFor: "toy"
-  }, "Toy: "), /*#__PURE__*/React.createElement("input", {
-    id: "domoToy",
-    type: "text",
-    name: "toy",
-    placeholder: "Domo's Toy"
-  }), /*#__PURE__*/React.createElement("input", {
-    type: "hidden",
-    name: "_csrf",
-    value: props.csrf
-  }), /*#__PURE__*/React.createElement("input", {
-    className: "makeDomoSubmit",
-    type: "submit",
-    value: "Make Domo"
-  }));
+var ProfileInfo = function ProfileInfo() {
+  return /*#__PURE__*/React.createElement("div", {
+    className: "userInfo"
+  }, /*#__PURE__*/React.createElement("h1", {
+    className: "usernameDisplay"
+  }, "Username's Pieces"), /*#__PURE__*/React.createElement("p", {
+    className: "joinDate"
+  }, "Joined: 11/14/2020"));
 };
 
-var DomoList = function DomoList(props) {
-  if (props.domos.length === 0) {
+var PieceList = function PieceList(props) {
+  if (props.pieces.length === 0) {
     return /*#__PURE__*/React.createElement("div", {
-      className: "domoList"
+      className: "pieceList"
     }, /*#__PURE__*/React.createElement("h3", {
-      className: "emptyDomo"
-    }, "No Domos Yet"));
+      className: "emptyPiece"
+    }, "You haven't uploaded any pieces yet."));
   }
 
-  var domoNodes = props.domos.map(function (domo) {
+  var pieceNodes = props.pieces.map(function (piece) {
     return /*#__PURE__*/React.createElement("div", {
-      key: domo._id,
-      className: "domo"
-    }, /*#__PURE__*/React.createElement("img", {
-      src: "/assets/img/domoface.jpeg",
-      alt: "domo face",
-      className: "domoFace"
-    }), /*#__PURE__*/React.createElement("h3", {
-      className: "domoName"
-    }, "Name: ", domo.name), /*#__PURE__*/React.createElement("h3", {
-      className: "domoAge"
-    }, "Age: ", domo.age), /*#__PURE__*/React.createElement("h3", {
-      className: "domoToy"
-    }, "Toy: ", domo.toy));
+      key: piece._id,
+      className: "piece"
+    }, /*#__PURE__*/React.createElement("h2", {
+      className: "pieceTitle"
+    }, piece.title), /*#__PURE__*/React.createElement("h3", {
+      className: "pieceTags"
+    }, "Tags: ", piece.tags), /*#__PURE__*/React.createElement("p", {
+      className: "pieceBody"
+    }, piece.body));
   });
   return /*#__PURE__*/React.createElement("div", {
-    className: "domoList"
-  }, domoNodes);
+    className: "pieceList"
+  }, pieceNodes);
 };
 
-var loadDomosFromServer = function loadDomosFromServer() {
-  sendAjax('GET', '/getDomos', null, function (data) {
-    ReactDOM.render( /*#__PURE__*/React.createElement(DomoList, {
-      domos: data.domos
-    }), document.querySelector("#domos"));
+var loadPiecesFromServer = function loadPiecesFromServer() {
+  sendAjax('GET', '/getPieces', null, function (data) {
+    ReactDOM.render( /*#__PURE__*/React.createElement(PieceList, {
+      pieces: data.pieces
+    }), document.querySelector("#piecePreviews"));
   });
 };
 
 var setup = function setup(csrf) {
-  ReactDOM.render( /*#__PURE__*/React.createElement(DomoForm, {
-    csrf: csrf
-  }), document.querySelector("#makeDomo"));
-  ReactDOM.render( /*#__PURE__*/React.createElement(DomoList, {
-    domos: []
-  }), document.querySelector("#domos"));
-  loadDomosFromServer();
-};
-
-var getToken = function getToken() {
-  sendAjax('GET', '/getToken', null, function (result) {
-    setup(result.csrfToken);
-  });
+  ReactDOM.render( /*#__PURE__*/React.createElement(ProfileInfo, null), document.querySelector("#profileInfo"));
+  ReactDOM.render( /*#__PURE__*/React.createElement(PieceList, {
+    pieces: []
+  }), document.querySelector("#piecePreviews"));
+  loadPiecesFromServer();
 };
 
 $(document).ready(function () {
@@ -118,13 +63,13 @@ $(document).ready(function () {
 
 var handleError = function handleError(message) {
   $("#errorMessage").text(message);
-  $("#domoMessage").animate({
+  $("#popupMessage").animate({
     width: 'toggle'
   }, 350);
 };
 
 var redirect = function redirect(response) {
-  $("#domoMessage").animate({
+  $("#popupMessage").animate({
     width: 'hide'
   }, 350);
   window.location = response.redirect;
