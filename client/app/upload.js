@@ -8,7 +8,7 @@ const HandlePiece = (e) => {
     return false;
   }
   
-  sendAjax('POST', $("#pieceForm").attr("action"), $("#pieceForm").serialize());
+  sendAjax('POST', $("#pieceForm").attr("action"), $("#pieceForm").serialize(), redirect);
   
   return false;
 };
@@ -34,18 +34,10 @@ const PieceForm = (props) => {
   );
 };
 
-const setup = function(csrf) {
-  ReactDOM.render(
-    <PieceForm csrf={csrf} />, document.querySelector("#uploadPiece")
-  );
-};
-
-const getToken = () => {
-  sendAjax('GET', '/getToken', null, (result) => {
-    setup(result.csrfToken);
-  });
-};
-
 $(document).ready(function() {
-  getToken();
+  sendAjax('GET', '/getToken', null, (result) => {
+    ReactDOM.render(
+      <PieceForm csrf={result.csrfToken} />, document.querySelector("#uploadPiece")
+    );
+  });
 });
