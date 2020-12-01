@@ -30,6 +30,7 @@ const PieceList = (props) => {
     );
   });
   
+  console.log(pieceNodes);
   return(
     <div className="pieceList">
       {pieceNodes}
@@ -45,7 +46,7 @@ $(document).ready(function() {
     );
     
     ReactDOM.render(
-      <PieceList pieces={result.pieces} />, document.querySelector("#piecePreviews")
+      <PieceList pieces={[]} />, document.querySelector("#piecePreviews")
     );
   });
 });
