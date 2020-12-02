@@ -3,20 +3,40 @@
 var ProfileInfo = function ProfileInfo(props) {
   var createdDate = props.accInfo.info.createdDate;
   createdDate = createdDate.substr(0, 10); //Just get the date part
-  //if(props.accInfo.info.subscribed){
+  //If someone is already subscribed
+
+  if (props.accInfo.info.subscribed) {
+    return /*#__PURE__*/React.createElement("div", {
+      className: "userInfo"
+    }, /*#__PURE__*/React.createElement("h1", {
+      className: "usernameDisplay"
+    }, props.accInfo.info.username, "'s Pieces"), /*#__PURE__*/React.createElement("img", {
+      className: "subscriptionStar",
+      src: "/assets/img/star.png",
+      alt: "A yellow star",
+      title: "You're a member! Thank you!"
+    }), /*#__PURE__*/React.createElement("p", {
+      className: "joinDate"
+    }, "joined: ", createdDate));
+  }
+
+  ; //If someone isn't subscribed
 
   return /*#__PURE__*/React.createElement("div", {
     className: "userInfo"
   }, /*#__PURE__*/React.createElement("h1", {
     className: "usernameDisplay"
-  }, props.accInfo.info.username, "'s Pieces"), /*#__PURE__*/React.createElement("img", {
+  }, props.accInfo.info.username, "'s Pieces"), /*#__PURE__*/React.createElement("a", {
+    id: "subscribeButton",
+    href: "/subscribe"
+  }, /*#__PURE__*/React.createElement("img", {
     className: "subscriptionStar",
-    src: "/assets/img/star.png",
-    alt: "A yellow star",
-    title: "You're a memember! Thank you!"
-  }), /*#__PURE__*/React.createElement("p", {
+    src: "/assets/img/empty_star.png",
+    alt: "An empty yellow star",
+    title: "Click here to subscribe and remove ads!"
+  })), /*#__PURE__*/React.createElement("p", {
     className: "joinDate"
-  }, "joined: ", createdDate)); //}
+  }, "joined: ", createdDate));
 };
 
 var PieceList = function PieceList(props) {
@@ -46,6 +66,13 @@ var PieceList = function PieceList(props) {
   }, pieceNodes);
 };
 
+var LoadAds = function LoadAds() {
+  return /*#__PURE__*/React.createElement("img", {
+    src: "/assets/img/fake_ad.png",
+    alt: "A fake advertisement"
+  });
+};
+
 var loadPiecesFromServer = function loadPiecesFromServer() {
   sendAjax('GET', '/getPieces', null, function (data) {
     ReactDOM.render( /*#__PURE__*/React.createElement(PieceList, {
@@ -59,6 +86,11 @@ var loadAccInfo = function loadAccInfo() {
     ReactDOM.render( /*#__PURE__*/React.createElement(ProfileInfo, {
       accInfo: data
     }), document.querySelector("#profileInfo"));
+
+    if (!data.info.subscribed) {
+      ReactDOM.render( /*#__PURE__*/React.createElement(LoadAds, null), document.querySelector("#leftAd"));
+      ReactDOM.render( /*#__PURE__*/React.createElement(LoadAds, null), document.querySelector("#rightAd"));
+    }
   });
 };
 

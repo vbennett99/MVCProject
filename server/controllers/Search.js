@@ -6,14 +6,17 @@ const searchPage = (req, res) => {
   res.render('search', { csrfToken: req.csrfToken() });
 };
 
-const searchPieces = (req, res) => {
+const search = (req, res) => {
   if (!req.body.searchTerm) {
-    return res.status(400).json({ error: 'Please enter a search term' });
+    return res.status(400).json({ error: `attempted search for: ${req.body.searchTerm}` });
   }
 
   const searchData = {
     search: req.body.search,
+    type: req.body.type,
   };
+
+  console.log(searchData);
 
   return Pieces.PieceModel.findByOwner(searchData.search, (err, docs) => {
     if (err) {
@@ -26,4 +29,4 @@ const searchPieces = (req, res) => {
 };
 
 module.exports.searchPage = searchPage;
-module.exports.searchPieces = searchPieces;
+module.exports.search = search;

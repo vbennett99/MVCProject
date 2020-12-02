@@ -2,15 +2,27 @@ const ProfileInfo = (props) => {
   let createdDate = props.accInfo.info.createdDate;
   createdDate = createdDate.substr(0,10); //Just get the date part
   
-  //if(props.accInfo.info.subscribed){
+  //If someone is already subscribed
+  if(props.accInfo.info.subscribed){
+    return (
+        <div className="userInfo">
+          <h1 className="usernameDisplay">{props.accInfo.info.username}'s Pieces</h1>
+          <img className="subscriptionStar" src="/assets/img/star.png" alt="A yellow star" title="You're a member! Thank you!"/>
+          <p className="joinDate">joined: {createdDate}</p>
+        </div>
+    );
+  };
+  //If someone isn't subscribed
   return (
       <div className="userInfo">
         <h1 className="usernameDisplay">{props.accInfo.info.username}'s Pieces</h1>
-        <img className="subscriptionStar" src="/assets/img/star.png" alt="A yellow star" title="You're a memember! Thank you!"/>
+        <a id="subscribeButton" href="/subscribe">
+        <img className="subscriptionStar" src="/assets/img/empty_star.png" alt="An empty yellow star"
+            title="Click here to subscribe and remove ads!"/>
+        </a>
         <p className="joinDate">joined: {createdDate}</p>
       </div>
   );
-  //}
 };
 
 const PieceList = (props) => {
@@ -40,6 +52,12 @@ const PieceList = (props) => {
   );
 };
 
+const LoadAds = () => {
+  return (
+    <img src="/assets/img/fake_ad.png" alt="A fake advertisement" />
+  );
+};
+
 const loadPiecesFromServer = () => {
   sendAjax('GET', '/getPieces', null, (data) => {
     ReactDOM.render(
@@ -52,7 +70,17 @@ const loadAccInfo = () => {
   sendAjax('GET', '/getAccInfo', null, (data) => {
     ReactDOM.render(
       <ProfileInfo accInfo={data} />, document.querySelector("#profileInfo")
-    );   
+    );
+    
+    if(!data.info.subscribed){
+      ReactDOM.render(
+        <LoadAds />, document.querySelector("#leftAd")
+      );
+      
+      ReactDOM.render(
+        <LoadAds />, document.querySelector("#rightAd")
+      );
+    }
   });
 };
 
@@ -60,5 +88,5 @@ $(document).ready(function() {
   sendAjax('GET', '/getToken', null, (result) => {
     loadAccInfo();
     loadPiecesFromServer();
-  });
+  })
 });

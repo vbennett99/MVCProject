@@ -90,9 +90,24 @@ const getAccountInfo = (req, res) => { // ONLY RETURNS USERNAME RIGHT NOW
     const accountInfo = { // More will be added later, like if there's a subscription
       username: data.username,
       createdDate: data.createdDate,
+      subscribed: data.subscribed,
     };
 
     return res.json({ info: accountInfo });
+  });
+};
+
+const subscribe = (req, res) => {
+  const filter = { _id: req.session.account._id };
+  const update = { subscribed: true };
+
+  Account.AccountModel.findOneAndUpdate(filter, update, { new: true }, (err, data) => {
+    if (err) {
+      console.log(err);
+      return res.status(400).json({ error: 'An error occured' });
+    }
+
+    return res.json({ data, status: true });
   });
 };
 
@@ -112,4 +127,5 @@ module.exports.login = login;
 module.exports.logout = logout;
 module.exports.signup = signup;
 module.exports.getAccInfo = getAccountInfo;
+module.exports.subscribe = subscribe;
 module.exports.getToken = getToken;

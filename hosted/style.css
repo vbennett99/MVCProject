@@ -170,3 +170,17 @@ nav {
     top: 0px;
     left: 20px;
 }
+
+/* --- Ads --- */
+#leftAd {
+  float: left;
+  margin-left: 5%;
+  margin-top: 10%;
+}
+
+#rightAd {
+  display: inline;
+  float: right; 
+  margin-right: 5%;
+  margin-top: 10%;
+}
