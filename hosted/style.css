@@ -9,12 +9,19 @@ html, body {
     color: #676862;
 }
 
+.main {
+    width: 70%;
+    height: 75%;
+    margin: auto;
+    padding: 4em 1em;
+    background-color: #F8F6F2;
+}
+
 /* --- Navigation --- */
 
 nav {
-    width: 80%;
+    width: 70%;
     margin: auto;
-    height: 115px;
     background-color: #adc2bd;
     padding: 0.5em 1em;
 }
@@ -25,16 +32,10 @@ nav {
     color: #4a4b4d;
 }
 
-nav:nth-child(1) {
-    padding-left: 25px;
-}
-
 .navlink {
-    padding: 5px;
-    padding-top: 12px;
-    padding-left: 20px;
+    padding: 12px;
     color: #4a4b4d;
-    font-size: 1.3em;
+    font-size: 1.5em;
     float: left;
 }
 
