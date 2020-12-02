@@ -3,14 +3,20 @@
 var ProfileInfo = function ProfileInfo(props) {
   var createdDate = props.accInfo.info.createdDate;
   createdDate = createdDate.substr(0, 10); //Just get the date part
+  //if(props.accInfo.info.subscribed){
 
   return /*#__PURE__*/React.createElement("div", {
     className: "userInfo"
   }, /*#__PURE__*/React.createElement("h1", {
     className: "usernameDisplay"
-  }, props.accInfo.info.username, "'s Pieces"), /*#__PURE__*/React.createElement("p", {
+  }, props.accInfo.info.username, "'s Pieces"), /*#__PURE__*/React.createElement("img", {
+    className: "subscriptionStar",
+    src: "/assets/img/star.png",
+    alt: "A yellow star",
+    title: "You're a memember! Thank you!"
+  }), /*#__PURE__*/React.createElement("p", {
     className: "joinDate"
-  }, "Joined: ", createdDate));
+  }, "joined: ", createdDate)); //}
 };
 
 var PieceList = function PieceList(props) {
@@ -32,7 +38,7 @@ var PieceList = function PieceList(props) {
       className: "pieceTags"
     }, "Tags: ", piece.tags), /*#__PURE__*/React.createElement("p", {
       className: "pieceBody"
-    }, piece.body), /*#__PURE__*/React.createElement("hr", null));
+    }, piece.body));
   }); //console.log(pieceNodes);
 
   return /*#__PURE__*/React.createElement("div", {
@@ -58,9 +64,6 @@ var loadAccInfo = function loadAccInfo() {
 
 $(document).ready(function () {
   sendAjax('GET', '/getToken', null, function (result) {
-    ReactDOM.render( /*#__PURE__*/React.createElement(PieceList, {
-      pieces: []
-    }), document.querySelector("#piecePreviews"));
     loadAccInfo();
     loadPiecesFromServer();
   });

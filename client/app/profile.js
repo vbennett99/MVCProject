@@ -1,12 +1,16 @@
 const ProfileInfo = (props) => {
   let createdDate = props.accInfo.info.createdDate;
   createdDate = createdDate.substr(0,10); //Just get the date part
+  
+  //if(props.accInfo.info.subscribed){
   return (
       <div className="userInfo">
         <h1 className="usernameDisplay">{props.accInfo.info.username}'s Pieces</h1>
-        <p className="joinDate">Joined: {createdDate}</p>
+        <img className="subscriptionStar" src="/assets/img/star.png" alt="A yellow star" title="You're a memember! Thank you!"/>
+        <p className="joinDate">joined: {createdDate}</p>
       </div>
   );
+  //}
 };
 
 const PieceList = (props) => {
@@ -24,7 +28,6 @@ const PieceList = (props) => {
         <h2 className="pieceTitle">{piece.title}</h2>
         <h3 className="pieceTags">Tags: {piece.tags}</h3>
         <p className="pieceBody">{piece.body}</p>
-        <hr/>
       </div>
     );
   });
@@ -55,10 +58,6 @@ const loadAccInfo = () => {
 
 $(document).ready(function() {
   sendAjax('GET', '/getToken', null, (result) => {
-    ReactDOM.render(
-      <PieceList pieces={[]} />, document.querySelector("#piecePreviews")
-    );
-    
     loadAccInfo();
     loadPiecesFromServer();
   });

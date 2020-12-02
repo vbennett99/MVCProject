@@ -11,7 +11,6 @@ html, body {
 
 .main {
     width: 70%;
-    height: 75%;
     margin: auto;
     padding: 4em 1em;
     background-color: #F8F6F2;
@@ -112,6 +111,44 @@ nav {
 #user:focus, #pass:focus, #pass2:focus {
     outline: none;
     box-shadow: 0px 0px 1px 1px #55acee;
+}
+
+/* --- Profile Page --- */
+.usernameDisplay {
+    font-size: 3.5em;
+    color: #87AFAC;
+    display: inline;
+    margin-left: 0.25em;
+}
+
+.joinDate {
+    font-size: 1.5em;
+    margin-left: 1em;
+    display: inline;
+}
+
+.piece {
+  margin: 1em 2em;
+  padding: 1em;
+  width: 90%;
+  border: 3px dashed #676862;
+  border-radius: 4px;
+}
+
+.pieceTitle {
+  font-size: 1.75em;
+  text-decoration: underline;
+}
+
+.pieceTags {
+  font-size: 1em;
+  font-weight: normal;
+}
+
+.subscriptionStar {
+    width: 40px;
+    height: 40px;
+    margin-left: 0.5em;
 }
 
 /* --- Popup Message --- */
