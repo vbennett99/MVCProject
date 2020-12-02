@@ -20,14 +20,14 @@ const getPieces = (request, response) => {
   return Pieces.PieceModel.findByOwner(req.session.account._id, (err, docs) => {
     if (err) {
       console.log(err);
-      return res.status(400).json({ error: 'An error occured ' });
+      return res.status(400).json({ error: 'An error occured' });
     }
 
     return res.json({ pieces: docs });
   });
 };
 
-//const getToken = (request, response) => {
+// const getToken = (request, response) => {
 //  const req = request;
 //  const res = response;
 //
@@ -36,8 +36,8 @@ const getPieces = (request, response) => {
 //  };
 //
 //  res.json(csrfJSON);
-//};
+// };
 
 module.exports.profilePage = profilePage;
 module.exports.getPieces = getPieces;
-//module.exports.getToken = getToken;
+// module.exports.getToken = getToken;

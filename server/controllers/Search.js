@@ -12,11 +12,18 @@ const searchPieces = (req, res) => {
   }
 
   const searchData = {
-    search: req.body.search
+    search: req.body.search,
   };
-  
-  console.log(searchData);
+
+  return Pieces.PieceModel.findByOwner(searchData.search, (err, docs) => {
+    if (err) {
+      console.log(err);
+      return res.status(400).json({ error: 'An error occured' });
+    }
+
+    return res.json({ pieces: docs });
+  });
 };
 
 module.exports.searchPage = searchPage;
-module.exports.make = searchPage;
+module.exports.searchPieces = searchPieces;

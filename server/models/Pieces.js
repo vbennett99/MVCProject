@@ -42,7 +42,7 @@ PieceSchema.statics.findByOwner = (ownerId, callback) => {
   const search = {
     author: convertID(ownerId),
   };
-  
+
   return PieceModel.find(search).select('title tags body').lean().exec(callback);
 };
 
