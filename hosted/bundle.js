@@ -1,12 +1,5 @@
 "use strict";
 
-var handleProfile = function handleProfile(e) {
-  e.preventDefault();
-  $("#popupMessage").animate({
-    width: 'hide'
-  }, 350);
-};
-
 var ProfileInfo = function ProfileInfo() {
   return /*#__PURE__*/React.createElement("div", {
     className: "userInfo"
@@ -27,17 +20,21 @@ var PieceList = function PieceList(props) {
   }
 
   var pieceNodes = props.pieces.map(function (piece) {
+    var pieceTitle = piece.title;
+    var pieceTags = piece.tags;
+    var pieceBody = piece.body;
     return /*#__PURE__*/React.createElement("div", {
       key: piece._id,
       className: "piece"
     }, /*#__PURE__*/React.createElement("h2", {
       className: "pieceTitle"
-    }, piece.title), /*#__PURE__*/React.createElement("h3", {
+    }, pieceTitle), /*#__PURE__*/React.createElement("h3", {
       className: "pieceTags"
-    }, "Tags: ", piece.tags), /*#__PURE__*/React.createElement("p", {
+    }, "Tags: ", pieceTags), /*#__PURE__*/React.createElement("p", {
       className: "pieceBody"
-    }, piece.body), /*#__PURE__*/React.createElement("hr", null));
-  });
+    }, pieceBody), /*#__PURE__*/React.createElement("hr", null));
+  }); //console.log(pieceNodes);
+
   return /*#__PURE__*/React.createElement("div", {
     className: "pieceList"
   }, pieceNodes);
@@ -65,7 +62,7 @@ var HandlePiece = function HandlePiece(e) {
     return false;
   }
 
-  sendAjax('POST', $("#pieceForm").attr("action"), $("#pieceForm").serialize());
+  sendAjax('POST', $("#pieceForm").attr("action"), $("#pieceForm").serialize(), redirect);
   return false;
 };
 

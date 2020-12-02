@@ -30,7 +30,7 @@ const PieceList = (props) => {
     );
   });
   
-  console.log(pieceNodes);
+  //console.log(pieceNodes);
   return(
     <div className="pieceList">
       {pieceNodes}
