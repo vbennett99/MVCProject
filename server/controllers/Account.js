@@ -79,6 +79,23 @@ const signup = (request, response) => {
   });
 };
 
+const getAccountInfo = (req, res) => { //ONLY RETURNS USERNAME RIGHT NOW
+  const account = req.session.account;
+  Account.AccountModel.findByUsername(account.username, (err, data) =>{
+    if(err){
+      console.log(err);
+      return res.status(400).json({ error: 'An error occured' });
+    }
+    
+    const accountInfo = { //More will be added later, like if there's a subscription
+      username: data.username,
+      createdDate: data.createdDate,
+    };
+    
+    return res.json({ info: accountInfo });
+  });
+};
+
 const getToken = (request, response) => {
   const req = request;
   const res = response;
@@ -94,4 +111,5 @@ module.exports.loginPage = loginPage;
 module.exports.login = login;
 module.exports.logout = logout;
 module.exports.signup = signup;
+module.exports.getAccInfo = getAccountInfo;
 module.exports.getToken = getToken;

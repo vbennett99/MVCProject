@@ -1,9 +1,11 @@
-const ProfileInfo = () => {
+const ProfileInfo = (props) => {
+  let createdDate = props.accInfo.info.createdDate;
+  createdDate = createdDate.substr(0,10); //Just get the date part
   return (
-    <div className="userInfo">
-      <h1 className="usernameDisplay">Username's Pieces</h1>
-      <p className="joinDate">Joined: 11/14/2020</p>
-    </div>
+      <div className="userInfo">
+        <h1 className="usernameDisplay">{props.accInfo.info.username}'s Pieces</h1>
+        <p className="joinDate">Joined: {createdDate}</p>
+      </div>
   );
 };
 
@@ -36,26 +38,28 @@ const PieceList = (props) => {
 };
 
 const loadPiecesFromServer = () => {
-  console.log("Pieces are being loaded from server");
   sendAjax('GET', '/getPieces', null, (data) => {
-    console.log(data.pieces);
     ReactDOM.render(
       <PieceList pieces={data.pieces} />, document.querySelector("#piecePreviews")
     );     
   });
 };
 
+const loadAccInfo = () => {
+  sendAjax('GET', '/getAccInfo', null, (data) => {
+    ReactDOM.render(
+      <ProfileInfo accInfo={data} />, document.querySelector("#profileInfo")
+    );   
+  });
+};
+
 $(document).ready(function() {
   sendAjax('GET', '/getToken', null, (result) => {
-    //setup(result.csrfToken);
-    ReactDOM.render(
-      <ProfileInfo />, document.querySelector("#profileInfo")
-    );
-    
     ReactDOM.render(
       <PieceList pieces={[]} />, document.querySelector("#piecePreviews")
     );
     
+    loadAccInfo();
     loadPiecesFromServer();
   });
 });

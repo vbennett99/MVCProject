@@ -1,13 +1,16 @@
 "use strict";
 
-var ProfileInfo = function ProfileInfo() {
+var ProfileInfo = function ProfileInfo(props) {
+  var createdDate = props.accInfo.info.createdDate;
+  createdDate = createdDate.substr(0, 10); //Just get the date part
+
   return /*#__PURE__*/React.createElement("div", {
     className: "userInfo"
   }, /*#__PURE__*/React.createElement("h1", {
     className: "usernameDisplay"
-  }, "Username's Pieces"), /*#__PURE__*/React.createElement("p", {
+  }, props.accInfo.info.username, "'s Pieces"), /*#__PURE__*/React.createElement("p", {
     className: "joinDate"
-  }, "Joined: 11/14/2020"));
+  }, "Joined: ", createdDate));
 };
 
 var PieceList = function PieceList(props) {
@@ -38,22 +41,27 @@ var PieceList = function PieceList(props) {
 };
 
 var loadPiecesFromServer = function loadPiecesFromServer() {
-  console.log("Pieces are being loaded from server");
   sendAjax('GET', '/getPieces', null, function (data) {
-    console.log(data.pieces);
     ReactDOM.render( /*#__PURE__*/React.createElement(PieceList, {
       pieces: data.pieces
     }), document.querySelector("#piecePreviews"));
   });
 };
 
+var loadAccInfo = function loadAccInfo() {
+  sendAjax('GET', '/getAccInfo', null, function (data) {
+    ReactDOM.render( /*#__PURE__*/React.createElement(ProfileInfo, {
+      accInfo: data
+    }), document.querySelector("#profileInfo"));
+  });
+};
+
 $(document).ready(function () {
   sendAjax('GET', '/getToken', null, function (result) {
-    //setup(result.csrfToken);
-    ReactDOM.render( /*#__PURE__*/React.createElement(ProfileInfo, null), document.querySelector("#profileInfo"));
     ReactDOM.render( /*#__PURE__*/React.createElement(PieceList, {
       pieces: []
     }), document.querySelector("#piecePreviews"));
+    loadAccInfo();
     loadPiecesFromServer();
   });
 });
