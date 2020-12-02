@@ -23,11 +23,11 @@ const PieceForm = (props) => {
           className="pieceForm"
     >
       <label htmlFor="Title">Title: </label>
-      <input id="pieceTitle" type="text" name="title" placeholder="Piece title"/>
+      <input id="pieceTitle" type="text" name="title" placeholder="Piece title"/><br />
       <label htmlFor="Tags">Tags: </label>
-      <input id="pieceTags" type="text" name="tags" placeholder="Romance, Comedy, ..."/>
+      <input id="pieceTags" type="text" name="tags" placeholder="Romance, Comedy, ..."/><br />
       <label htmlFor="body">Body: </label>
-      <input id="pieceBody" type="text" name="body" placeholder="Your writing goes here"/>
+      <input id="pieceBody" type="text" name="body" placeholder="Your writing goes here"/><br /><br/>
       <input type="hidden" name="_csrf" value={props.csrf}/>
       <input className="uploadPieceSubmit" type="submit" value="Upload Piece"/>
     </form>
