@@ -12,6 +12,7 @@ const router = (app) => {
   app.get('/getAccInfo', mid.requiresSecure, mid.requiresLogin, controllers.Account.getAccInfo);
   app.get('/upload', mid.requiresSecure, mid.requiresLogin, controllers.Upload.uploadPage);
   app.post('/upload', mid.requiresSecure, mid.requiresLogin, controllers.Upload.make);
+  app.get('/search', mid.requiresSecure, mid.requiresLogin, controllers.Search.searchPage);
   app.get('/', mid.requiresSecure, mid.requiresLogout, controllers.Account.loginPage);
 };
 
