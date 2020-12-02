@@ -27,17 +27,17 @@ const getPieces = (request, response) => {
   });
 };
 
-const getToken = (request, response) => {
-  const req = request;
-  const res = response;
-
-  const csrfJSON = {
-    csrfToken: req.csrfToken(),
-  };
-
-  res.json(csrfJSON);
-};
+//const getToken = (request, response) => {
+//  const req = request;
+//  const res = response;
+//
+//  const csrfJSON = {
+//    csrfToken: req.csrfToken(),
+//  };
+//
+//  res.json(csrfJSON);
+//};
 
 module.exports.profilePage = profilePage;
 module.exports.getPieces = getPieces;
-module.exports.getToken = getToken;
+//module.exports.getToken = getToken;

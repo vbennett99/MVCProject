@@ -17,14 +17,11 @@ const PieceList = (props) => {
   }
   
   const pieceNodes = props.pieces.map(function(piece){
-    const pieceTitle = piece.title;
-    const pieceTags = piece.tags;
-    const pieceBody = piece.body;
     return(
       <div key={piece._id} className="piece">
-        <h2 className="pieceTitle">{pieceTitle}</h2>
-        <h3 className="pieceTags">Tags: {pieceTags}</h3>
-        <p className="pieceBody">{pieceBody}</p>
+        <h2 className="pieceTitle">{piece.title}</h2>
+        <h3 className="pieceTags">Tags: {piece.tags}</h3>
+        <p className="pieceBody">{piece.body}</p>
         <hr/>
       </div>
     );
@@ -38,6 +35,16 @@ const PieceList = (props) => {
   );
 };
 
+const loadPiecesFromServer = () => {
+  console.log("Pieces are being loaded from server");
+  sendAjax('GET', '/getPieces', null, (data) => {
+    console.log(data.pieces);
+    ReactDOM.render(
+      <PieceList pieces={data.pieces} />, document.querySelector("#piecePreviews")
+    );     
+  });
+};
+
 $(document).ready(function() {
   sendAjax('GET', '/getToken', null, (result) => {
     //setup(result.csrfToken);
@@ -48,5 +55,7 @@ $(document).ready(function() {
     ReactDOM.render(
       <PieceList pieces={[]} />, document.querySelector("#piecePreviews")
     );
+    
+    loadPiecesFromServer();
   });
 });

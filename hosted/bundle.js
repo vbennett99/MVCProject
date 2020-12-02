@@ -20,24 +20,31 @@ var PieceList = function PieceList(props) {
   }
 
   var pieceNodes = props.pieces.map(function (piece) {
-    var pieceTitle = piece.title;
-    var pieceTags = piece.tags;
-    var pieceBody = piece.body;
     return /*#__PURE__*/React.createElement("div", {
       key: piece._id,
       className: "piece"
     }, /*#__PURE__*/React.createElement("h2", {
       className: "pieceTitle"
-    }, pieceTitle), /*#__PURE__*/React.createElement("h3", {
+    }, piece.title), /*#__PURE__*/React.createElement("h3", {
       className: "pieceTags"
-    }, "Tags: ", pieceTags), /*#__PURE__*/React.createElement("p", {
+    }, "Tags: ", piece.tags), /*#__PURE__*/React.createElement("p", {
       className: "pieceBody"
-    }, pieceBody), /*#__PURE__*/React.createElement("hr", null));
+    }, piece.body), /*#__PURE__*/React.createElement("hr", null));
   }); //console.log(pieceNodes);
 
   return /*#__PURE__*/React.createElement("div", {
     className: "pieceList"
   }, pieceNodes);
+};
+
+var loadPiecesFromServer = function loadPiecesFromServer() {
+  console.log("Pieces are being loaded from server");
+  sendAjax('GET', '/getPieces', null, function (data) {
+    console.log(data.pieces);
+    ReactDOM.render( /*#__PURE__*/React.createElement(PieceList, {
+      pieces: data.pieces
+    }), document.querySelector("#piecePreviews"));
+  });
 };
 
 $(document).ready(function () {
@@ -47,6 +54,7 @@ $(document).ready(function () {
     ReactDOM.render( /*#__PURE__*/React.createElement(PieceList, {
       pieces: []
     }), document.querySelector("#piecePreviews"));
+    loadPiecesFromServer();
   });
 });
 "use strict";

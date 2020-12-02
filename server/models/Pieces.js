@@ -40,10 +40,10 @@ PieceSchema.statics.toAPI = (doc) => ({
 
 PieceSchema.statics.findByOwner = (ownerId, callback) => {
   const search = {
-    owner: convertID(ownerId),
+    author: convertID(ownerId),
   };
-
-  return PieceModel.find(search).select('title tags body author').lean().exec(callback);
+  
+  return PieceModel.find(search).select('title tags body').lean().exec(callback);
 };
 
 PieceModel = mongoose.model('Piece', PieceSchema);
