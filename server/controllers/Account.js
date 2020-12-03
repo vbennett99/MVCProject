@@ -99,13 +99,13 @@ const changePassword = (request, response) => {
       password: hash,
     };
 
-    Account.AccountModel.findOneAndUpdate(filter, newPassData, { new: true }, (err, data) => {
+    Account.AccountModel.findOneAndUpdate(filter, newPassData, { new: true }, (err) => {
       if (err) {
         console.log(err);
         return res.status(400).json({ error: 'An error occured' });
       }
 
-      return res.json({ data, status: true, redirect: '/profile' });
+      return res.json({ redirect: '/profile' });
     });
   });
 };

@@ -25,10 +25,10 @@ const ProfileInfo = (props) => {
   );
 };
 
-const PasswordChangeButton = (csrf) => {
+const PasswordChangeButton = (props) => {
   return(
     <a className="passChangeButton"
-       onClick={(e) => LoadPasswordChangeForm(csrf)}
+       onClick={(e) => LoadPasswordChangeForm(props.csrfToken)}
     >
       Change Password
     </a>
@@ -37,7 +37,7 @@ const PasswordChangeButton = (csrf) => {
 
 const LoadPasswordChangeButton = (csrf) => {
    ReactDOM.render(
-    <PasswordChangeButton csrf={csrf} />, document.querySelector("#passwordChange")
+    <PasswordChangeButton csrfToken={csrf} />, document.querySelector("#passwordChange")
    );
 }
 
@@ -66,9 +66,7 @@ const PasswordChangeForm = (props) => {
   );
 };
 
-const handlePassChange = () => {
-  e.preventDefault();
-  
+const handlePassChange = (csrf) => {
   $("#popupMessage").animate({width:'hide'}, 350);
   
   if($("#newPass1").val() == '' || $("#newPass2").val() == ''){
@@ -109,6 +107,23 @@ const PieceList = (props) => {
       {pieceNodes}
     </div>
   );
+};
+
+const handleSubscribe = (e, csrf) => {
+  e.preventDefault();
+
+  let data = `_csrf=${csrf}`;
+
+  sendAjax('POST', '/subscribe', data, function(data){
+    if(!data.status){
+      handleError("An error occured");
+    }
+    else
+    {
+      handleError("Thanks for subscribing!");
+      setup();
+    };
+  })
 };
 
 const LoadAds = () => {

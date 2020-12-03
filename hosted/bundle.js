@@ -41,18 +41,18 @@ var ProfileInfo = function ProfileInfo(props) {
   }, "joined: ", createdDate));
 };
 
-var PasswordChangeButton = function PasswordChangeButton(csrf) {
+var PasswordChangeButton = function PasswordChangeButton(props) {
   return /*#__PURE__*/React.createElement("a", {
     className: "passChangeButton",
     onClick: function onClick(e) {
-      return LoadPasswordChangeForm(csrf);
+      return LoadPasswordChangeForm(props.csrfToken);
     }
   }, "Change Password");
 };
 
 var LoadPasswordChangeButton = function LoadPasswordChangeButton(csrf) {
   ReactDOM.render( /*#__PURE__*/React.createElement(PasswordChangeButton, {
-    csrf: csrf
+    csrfToken: csrf
   }), document.querySelector("#passwordChange"));
 };
 
@@ -93,8 +93,7 @@ var PasswordChangeForm = function PasswordChangeForm(props) {
   }));
 };
 
-var handlePassChange = function handlePassChange() {
-  e.preventDefault();
+var handlePassChange = function handlePassChange(csrf) {
   $("#popupMessage").animate({
     width: 'hide'
   }, 350);
@@ -137,6 +136,21 @@ var PieceList = function PieceList(props) {
   return /*#__PURE__*/React.createElement("div", {
     className: "pieceList"
   }, pieceNodes);
+};
+
+var handleSubscribe = function handleSubscribe(e, csrf) {
+  e.preventDefault();
+  var data = "_csrf=".concat(csrf);
+  sendAjax('POST', '/subscribe', data, function (data) {
+    if (!data.status) {
+      handleError("An error occured");
+    } else {
+      handleError("Thanks for subscribing!");
+      setup();
+    }
+
+    ;
+  });
 };
 
 var LoadAds = function LoadAds() {
