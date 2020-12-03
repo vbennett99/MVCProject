@@ -87,7 +87,7 @@ var PasswordChangeForm = function PasswordChangeForm(props) {
     name: "_csrf",
     value: props.csrf
   }), /*#__PURE__*/React.createElement("input", {
-    className: "formSubmit",
+    className: "newPassFormSubmit",
     type: "submit",
     value: "Change Password"
   }));

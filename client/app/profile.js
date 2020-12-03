@@ -61,7 +61,7 @@ const PasswordChangeForm = (props) => {
       <label htmlFor="newPass2">Confirm New Password: </label>
       <input id="newPass2" type="password" name="newPass2" /><br/>
       <input type="hidden" name="_csrf" value={props.csrf} />
-      <input className="formSubmit" type="submit" value="Change Password" />
+      <input className="newPassFormSubmit" type="submit" value="Change Password" />
     </form>
   );
 };

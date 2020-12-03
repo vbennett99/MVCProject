@@ -60,7 +60,7 @@ nav {
     height: 300px;
     width: 350px;
     margin: 0 auto;
-    padding-top: 350px;
+    padding-top: 250px;
     font-size: 1.2em;
 }
 
@@ -71,7 +71,7 @@ nav {
 .mainForm label {
     display: inline-block;
     width: 100px;
-    margin-right: 10px;
+    margin-right: 1em;
     text-align: right;
     font-size: 1.2em;
 }
@@ -82,14 +82,15 @@ nav {
     text-align: center;
     margin: 0 auto;
     margin-top: 14px;
-    font-size: 1.2em;
-    width: 100px;
-    background-color: #55acee;
-    border-radius: 2px;
-    border-color: #66acee;
+    border-color: #4a4b4d;
     padding: 3px 0px;
-    color: white;
-    text-decoration: none;
+    width: 30%;
+    height: 50px;
+    font-size: 1.25em;
+    font-family: Arimo, Arial, sans-serif;
+    background-color: #adc2bd;
+    color: #4a4b4d;
+    border-radius: 4px;
 }
 
 .formSubmit:link, .formSubmit:visited, .formSubmit:hover, .formSubmit:active {
@@ -98,7 +99,7 @@ nav {
 
 .formSubmit:hover {
     transition: background-color 0.4s ease;
-    background-color: #338acc;
+    background-color: #87AFAC;
 }
 
 #user, #pass, #pass2 {
@@ -114,6 +115,7 @@ nav {
 }
 
 /* --- Profile Page --- */
+
 .usernameDisplay {
     font-size: 3.5em;
     color: #87AFAC;
@@ -151,24 +153,87 @@ nav {
     margin-left: 0.5em;
 }
 
+.passChangeButton {
+  font-size: 0.75em;
+  font-weight: bold;
+  margin-left: 1.5em;
+  text-decoration: underline;
+}
+
+label {
+  font-size: 1.25em;
+  margin-left: 2em;
+}
+
+input[type=text] {
+  width: 30%;
+  height: 30px;
+  font-size: 1.25em;
+  border: 1.5px solid #4a4b4d;
+  border-radius: 2px;
+}
+
+.searchSubmit {
+  width: 12%;
+  height: 30px;
+  font-size: 1.25em;
+  font-family: Arimo, Arial, sans-serif;
+  margin-left: 1em;
+  background-color: #adc2bd;
+  color: #4a4b4d;
+  border-radius: 4px;
+}
+
+#type {
+  height: 30px; 
+  width: 8%;
+  font-size: 1.25em;
+  font-family: Arimo, Arial, sans-serif;
+}
+
+option:checked{
+  background-color: #adc2bd;
+  color: #4a4b4d;
+}
+
+/* --- Upload Piece --- */
+
+#pieceBody {
+  height: 20%; 
+  line-height: 5%;
+}
+
+.uploadPieceSubmit {
+  width: 12%;
+  height: 30px;
+  font-size: 1.25em;
+  font-family: Arimo, Arial, sans-serif;
+  margin-left: 2em;
+  background-color: #adc2bd;
+  color: #4a4b4d;
+  border-radius: 4px;
+}
+
 /* --- Popup Message --- */
 
 #popupMessage {
     display:none;
     top: 250px;
     width: 250px;
-    height: 650px;
+    height: 115px;
     position: absolute;
     z-index: 200;
     right: 0px;
     overflow: hidden;
+    background-color: white;
+    border-radius: 15px;
 }
 
 #popupMessage h3 {
+    margin-left: 1.25em;
     width: 200px;
     position: absolute;
-    top: 0px;
-    left: 20px;
+    text-align: center;
 }
 
 /* --- Ads --- */
