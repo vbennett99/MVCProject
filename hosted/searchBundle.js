@@ -11,9 +11,7 @@ var HandleSearch = function HandleSearch(e) {
     return false;
   }
 
-  sendAjax('POST', "/search"
-  /*$("#searchForm").attr("action")*/
-  , $("#searchForm").serialize(), redirect);
+  sendAjax('GET', $("#searchForm").attr("action"), $("#searchForm").serialize(), redirect);
   return false;
 };
 
@@ -23,7 +21,7 @@ var SearchForm = function SearchForm(props) {
     onSubmit: HandleSearch,
     name: "searchForm",
     action: "/search",
-    method: "POST",
+    method: "GET",
     className: "searchForm"
   }, /*#__PURE__*/React.createElement("label", {
     htmlFor: "searchTerm"
@@ -48,7 +46,7 @@ var SearchForm = function SearchForm(props) {
     name: "_csrf",
     value: props.csrf
   }), /*#__PURE__*/React.createElement("input", {
-    className: "searchPieceSubmit",
+    className: "searchSubmit",
     type: "submit",
     value: "Search Pieces"
   }));

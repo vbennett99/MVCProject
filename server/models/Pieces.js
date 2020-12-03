@@ -43,7 +43,7 @@ PieceSchema.statics.findByOwner = (ownerId, callback) => {
     author: convertID(ownerId),
   };
 
-  return PieceModel.find(search).select('title tags body').lean().exec(callback);
+  return PieceModel.find(search).select('title tags body author').lean().exec(callback);
 };
 
 PieceModel = mongoose.model('Piece', PieceSchema);

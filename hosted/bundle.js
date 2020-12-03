@@ -28,7 +28,9 @@ var ProfileInfo = function ProfileInfo(props) {
     className: "usernameDisplay"
   }, props.accInfo.info.username, "'s Pieces"), /*#__PURE__*/React.createElement("a", {
     id: "subscribeButton",
-    href: "/subscribe"
+    onClick: function onClick(e) {
+      return handleSubscribe(e, props.csrfToken);
+    }
   }, /*#__PURE__*/React.createElement("img", {
     className: "subscriptionStar",
     src: "/assets/img/empty_star.png",
@@ -66,11 +68,29 @@ var PieceList = function PieceList(props) {
   }, pieceNodes);
 };
 
-var LoadAds = function LoadAds() {
-  return /*#__PURE__*/React.createElement("img", {
-    src: "/assets/img/fake_ad.png",
-    alt: "A fake advertisement"
+var handleSubscribe = function handleSubscribe(e, csrf) {
+  e.preventDefault();
+  var data = "_csrf=".concat(csrf);
+  sendAjax('POST', '/subscribe', data, function (data) {
+    if (!data.status) {
+      handleError("An error occured");
+    } else {
+      handleError("Thanks for subscribing!");
+      setup();
+    }
+
+    ;
   });
+};
+
+var LoadAds = function LoadAds() {
+  return /*#__PURE__*/React.createElement("a", {
+    target: "_blank",
+    href: "https://xkcd.com/993/"
+  }, /*#__PURE__*/React.createElement("img", {
+    src: "/assets/img/fake_ad.png",
+    alt: "A fake advertisement. It takes you to an xkcd comic if you click it."
+  }));
 };
 
 var loadPiecesFromServer = function loadPiecesFromServer() {
@@ -81,10 +101,11 @@ var loadPiecesFromServer = function loadPiecesFromServer() {
   });
 };
 
-var loadAccInfo = function loadAccInfo() {
+var loadAccInfo = function loadAccInfo(csrf) {
   sendAjax('GET', '/getAccInfo', null, function (data) {
     ReactDOM.render( /*#__PURE__*/React.createElement(ProfileInfo, {
-      accInfo: data
+      accInfo: data,
+      csrfToken: csrf
     }), document.querySelector("#profileInfo"));
 
     if (!data.info.subscribed) {
@@ -94,11 +115,15 @@ var loadAccInfo = function loadAccInfo() {
   });
 };
 
-$(document).ready(function () {
+var setup = function setup() {
   sendAjax('GET', '/getToken', null, function (result) {
-    loadAccInfo();
+    loadAccInfo(result.csrfToken);
     loadPiecesFromServer();
   });
+};
+
+$(document).ready(function () {
+  setup();
 });
 "use strict";
 

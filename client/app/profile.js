@@ -16,9 +16,9 @@ const ProfileInfo = (props) => {
   return (
       <div className="userInfo">
         <h1 className="usernameDisplay">{props.accInfo.info.username}'s Pieces</h1>
-        <a id="subscribeButton" href="/subscribe">
-        <img className="subscriptionStar" src="/assets/img/empty_star.png" alt="An empty yellow star"
-            title="Click here to subscribe and remove ads!"/>
+        <a id="subscribeButton" onClick={(e) => handleSubscribe(e, props.csrfToken)}>
+          <img className="subscriptionStar" src="/assets/img/empty_star.png" alt="An empty yellow star"
+              title="Click here to subscribe and remove ads!"/>
         </a>
         <p className="joinDate">joined: {createdDate}</p>
       </div>
@@ -52,9 +52,26 @@ const PieceList = (props) => {
   );
 };
 
+const handleSubscribe = (e, csrf) => {
+  e.preventDefault();
+  
+  let data = `_csrf=${csrf}`;
+  
+  sendAjax('POST', '/subscribe', data, function(data){
+    if(!data.status){
+      handleError("An error occured");
+    }
+    else
+    {
+      handleError("Thanks for subscribing!");
+      setup();
+    };
+  })
+};
+
 const LoadAds = () => {
   return (
-    <img src="/assets/img/fake_ad.png" alt="A fake advertisement" />
+    <a target="_blank" href="https://xkcd.com/993/"><img src="/assets/img/fake_ad.png" alt="A fake advertisement. It takes you to an xkcd comic if you click it." /></a>
   );
 };
 
@@ -66,10 +83,10 @@ const loadPiecesFromServer = () => {
   });
 };
 
-const loadAccInfo = () => {
+const loadAccInfo = (csrf) => {
   sendAjax('GET', '/getAccInfo', null, (data) => {
     ReactDOM.render(
-      <ProfileInfo accInfo={data} />, document.querySelector("#profileInfo")
+      <ProfileInfo accInfo={data} csrfToken={csrf} />, document.querySelector("#profileInfo")
     );
     
     if(!data.info.subscribed){
@@ -84,9 +101,13 @@ const loadAccInfo = () => {
   });
 };
 
-$(document).ready(function() {
+const setup = () => {
   sendAjax('GET', '/getToken', null, (result) => {
-    loadAccInfo();
+    loadAccInfo(result.csrfToken);
     loadPiecesFromServer();
   })
+};
+
+$(document).ready(function() {
+  setup();
 });

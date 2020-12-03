@@ -8,12 +8,11 @@ const searchPage = (req, res) => {
 
 const search = (req, res) => {
   if (!req.body.searchTerm) {
-    return res.status(400).json({ error: `attempted search for: ${req.body.searchTerm}` });
+    return res.status(400).json({ error: 'An error occured' });
   }
 
   const searchData = {
     search: req.body.search,
-    type: req.body.type,
   };
 
   console.log(searchData);

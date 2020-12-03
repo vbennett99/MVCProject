@@ -8,7 +8,7 @@ const HandleSearch = (e) => {
     return false;
   }
   
-  sendAjax('POST', "/search"/*$("#searchForm").attr("action")*/, $("#searchForm").serialize(), redirect);
+  sendAjax('GET', $("#searchForm").attr("action"), $("#searchForm").serialize(), redirect);
   
   return false;
 };
@@ -19,7 +19,7 @@ const SearchForm = (props) => {
           onSubmit={HandleSearch}
           name="searchForm"
           action="/search"
-          method="POST"
+          method="GET"
           className="searchForm"
     >
       <label htmlFor="searchTerm">Search Term: </label>
@@ -31,7 +31,7 @@ const SearchForm = (props) => {
         <option value="author">author</option>
       </select>
       <input type="hidden" name="_csrf" value={props.csrf}/>
-      <input className="searchPieceSubmit" type="submit" value="Search Pieces"/>
+      <input className="searchSubmit" type="submit" value="Search Pieces"/>
     </form>
   );
 };
