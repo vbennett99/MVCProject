@@ -12,10 +12,6 @@ var HandleSearch = function HandleSearch(e) {
   }
 
   sendAjax('GET', $("#searchForm").attr("action"), $("#searchForm").serialize(), function (data) {
-    if (data) {
-      console.log(data);
-    }
-
     ReactDOM.render( /*#__PURE__*/React.createElement(ResultList, {
       pieces: data.pieces
     }), document.querySelector("#resultPreviews"));
@@ -37,7 +33,7 @@ var SearchForm = function SearchForm(props) {
     id: "searchTerm",
     type: "text",
     name: "searchTerm",
-    placeholder: "Please only enter one search term at a time"
+    placeholder: "Search terms are case sensitive"
   }), /*#__PURE__*/React.createElement("label", {
     htmlFor: "searchType"
   }, "Type: "), /*#__PURE__*/React.createElement("select", {

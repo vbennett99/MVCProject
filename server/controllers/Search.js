@@ -19,7 +19,7 @@ const search = (req, res) => {
 
   // Searching by title
   if (searchData.type === 'title') {
-    return Pieces.PieceModel.find({ title: searchData.search }, (err, docs) => {
+    return Pieces.PieceModel.find({ title: {$regex:searchData.search} }, (err, docs) => {
       if (err) {
         console.log(err);
         return res.status(400).json({ error: 'An error occured' });
@@ -30,7 +30,7 @@ const search = (req, res) => {
   }
 
   // Searching by tag
-  return Pieces.PieceModel.find({ tags: searchData.search }, (err, docs) => {
+  return Pieces.PieceModel.find({ tags: {$regex:searchData.search} }, (err, docs) => {
     if (err) {
       console.log(err);
       return res.status(400).json({ error: 'No search results' });

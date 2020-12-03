@@ -9,9 +9,6 @@ const HandleSearch = (e) => {
   }
   
   sendAjax('GET', $("#searchForm").attr("action"), $("#searchForm").serialize(), (data) => {
-      if(data){
-        console.log(data); 
-      }
      ReactDOM.render(
       <ResultList pieces={data.pieces} />, document.querySelector("#resultPreviews")
     );
@@ -30,7 +27,7 @@ const SearchForm = (props) => {
           className="searchForm"
     >
       <label htmlFor="searchTerm">Search Term: </label>
-      <input id="searchTerm" type="text" name="searchTerm" placeholder="Please only enter one search term at a time"/>
+      <input id="searchTerm" type="text" name="searchTerm" placeholder="Search terms are case sensitive"/>
       <label htmlFor="searchType">Type: </label>
       <select id="type" name="searchType">
         <option value="title">title</option>
