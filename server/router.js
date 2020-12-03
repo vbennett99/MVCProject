@@ -15,6 +15,7 @@ const router = (app) => {
   app.get('/search', mid.requiresSecure, mid.requiresLogin, controllers.Search.searchPage);
   app.get('/searchPieces', mid.requiresSecure, mid.requiresLogin, controllers.Search.searchPieces);
   app.post('/subscribe', mid.requiresSecure, mid.requiresLogin, controllers.Account.subscribe);
+  app.post('/changePass', mid.requiresSecure, mid.requiresLogin, controllers.Account.changePassword);
   app.get('/', mid.requiresSecure, mid.requiresLogout, controllers.Account.loginPage);
 };
 
