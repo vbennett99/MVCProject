@@ -13,7 +13,7 @@ const router = (app) => {
   app.get('/upload', mid.requiresSecure, mid.requiresLogin, controllers.Upload.uploadPage);
   app.post('/upload', mid.requiresSecure, mid.requiresLogin, controllers.Upload.make);
   app.get('/search', mid.requiresSecure, mid.requiresLogin, controllers.Search.searchPage);
-  app.get('/search', mid.requiresSecure, mid.requiresLogin, controllers.Search.search);
+  app.get('/searchPieces', mid.requiresSecure, mid.requiresLogin, controllers.Search.searchPieces);
   app.post('/subscribe', mid.requiresSecure, mid.requiresLogin, controllers.Account.subscribe);
   app.get('/', mid.requiresSecure, mid.requiresLogout, controllers.Account.loginPage);
 };

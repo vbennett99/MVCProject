@@ -79,7 +79,7 @@ const signup = (request, response) => {
   });
 };
 
-const getAccountInfo = (req, res) => { // ONLY RETURNS USERNAME RIGHT NOW
+const getAccountInfo = (req, res) => {
   const { account } = req.session;
   Account.AccountModel.findByUsername(account.username, (err, data) => {
     if (err) {

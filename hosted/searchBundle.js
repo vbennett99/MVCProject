@@ -11,7 +11,15 @@ var HandleSearch = function HandleSearch(e) {
     return false;
   }
 
-  sendAjax('GET', $("#searchForm").attr("action"), $("#searchForm").serialize(), redirect);
+  sendAjax('GET', $("#searchForm").attr("action"), $("#searchForm").serialize(), function (data) {
+    if (data) {
+      console.log(data);
+    }
+
+    ReactDOM.render( /*#__PURE__*/React.createElement(ResultList, {
+      pieces: data.pieces
+    }), document.querySelector("#resultPreviews"));
+  });
   return false;
 };
 
@@ -20,7 +28,7 @@ var SearchForm = function SearchForm(props) {
     id: "searchForm",
     onSubmit: HandleSearch,
     name: "searchForm",
-    action: "/search",
+    action: "/searchPieces",
     method: "GET",
     className: "searchForm"
   }, /*#__PURE__*/React.createElement("label", {
@@ -39,9 +47,7 @@ var SearchForm = function SearchForm(props) {
     value: "title"
   }, "title"), /*#__PURE__*/React.createElement("option", {
     value: "tag"
-  }, "tag"), /*#__PURE__*/React.createElement("option", {
-    value: "author"
-  }, "author")), /*#__PURE__*/React.createElement("input", {
+  }, "tag")), /*#__PURE__*/React.createElement("input", {
     type: "hidden",
     name: "_csrf",
     value: props.csrf

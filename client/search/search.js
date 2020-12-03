@@ -8,7 +8,14 @@ const HandleSearch = (e) => {
     return false;
   }
   
-  sendAjax('GET', $("#searchForm").attr("action"), $("#searchForm").serialize(), redirect);
+  sendAjax('GET', $("#searchForm").attr("action"), $("#searchForm").serialize(), (data) => {
+      if(data){
+        console.log(data); 
+      }
+     ReactDOM.render(
+      <ResultList pieces={data.pieces} />, document.querySelector("#resultPreviews")
+    );
+  });
   
   return false;
 };
@@ -18,7 +25,7 @@ const SearchForm = (props) => {
     <form id="searchForm"
           onSubmit={HandleSearch}
           name="searchForm"
-          action="/search"
+          action="/searchPieces"
           method="GET"
           className="searchForm"
     >
@@ -28,7 +35,6 @@ const SearchForm = (props) => {
       <select id="type" name="searchType">
         <option value="title">title</option>
         <option value="tag">tag</option>
-        <option value="author">author</option>
       </select>
       <input type="hidden" name="_csrf" value={props.csrf}/>
       <input className="searchSubmit" type="submit" value="Search Pieces"/>
