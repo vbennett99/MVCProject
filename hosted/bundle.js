@@ -41,6 +41,77 @@ var ProfileInfo = function ProfileInfo(props) {
   }, "joined: ", createdDate));
 };
 
+var PasswordChangeButton = function PasswordChangeButton(csrf) {
+  return /*#__PURE__*/React.createElement("a", {
+    className: "passChangeButton",
+    onClick: function onClick(e) {
+      return LoadPasswordChangeForm(csrf);
+    }
+  }, "Change Password");
+};
+
+var LoadPasswordChangeButton = function LoadPasswordChangeButton(csrf) {
+  ReactDOM.render( /*#__PURE__*/React.createElement(PasswordChangeButton, {
+    csrf: csrf
+  }), document.querySelector("#passwordChange"));
+};
+
+var LoadPasswordChangeForm = function LoadPasswordChangeForm(csrf) {
+  ReactDOM.render( /*#__PURE__*/React.createElement(PasswordChangeForm, {
+    csrf: csrf
+  }), document.querySelector("#piecePreviews"));
+};
+
+var PasswordChangeForm = function PasswordChangeForm(props) {
+  return /*#__PURE__*/React.createElement("form", {
+    id: "passChangeForm",
+    onSubmit: handlePassChange,
+    name: "passChangeForm",
+    action: "/changePass",
+    method: "POST",
+    className: "passChangeForm"
+  }, /*#__PURE__*/React.createElement("label", {
+    htmlFor: "newPass1"
+  }, "New Password: "), /*#__PURE__*/React.createElement("input", {
+    id: "newPass1",
+    type: "password",
+    name: "newPass1"
+  }), /*#__PURE__*/React.createElement("br", null), /*#__PURE__*/React.createElement("label", {
+    htmlFor: "newPass2"
+  }, "Confirm New Password: "), /*#__PURE__*/React.createElement("input", {
+    id: "newPass2",
+    type: "password",
+    name: "newPass2"
+  }), /*#__PURE__*/React.createElement("br", null), /*#__PURE__*/React.createElement("input", {
+    type: "hidden",
+    name: "_csrf",
+    value: props.csrf
+  }), /*#__PURE__*/React.createElement("input", {
+    className: "formSubmit",
+    type: "submit",
+    value: "Change Password"
+  }));
+};
+
+var handlePassChange = function handlePassChange() {
+  e.preventDefault();
+  $("#popupMessage").animate({
+    width: 'hide'
+  }, 350);
+
+  if ($("#newPass1").val() == '' || $("#newPass2").val() == '') {
+    handleError("Both fields are required.");
+    return false;
+  }
+
+  if ($("#newPass1").val() !== $("#newPass2").val()) {
+    handleError("New passwords do not match");
+    return false;
+  }
+
+  sendAjax('POST', $("#changePassForm").attr("action"), $("#changePassForm").serialize(), redirect);
+};
+
 var PieceList = function PieceList(props) {
   if (props.pieces.length === 0) {
     return /*#__PURE__*/React.createElement("div", {
@@ -66,21 +137,6 @@ var PieceList = function PieceList(props) {
   return /*#__PURE__*/React.createElement("div", {
     className: "pieceList"
   }, pieceNodes);
-};
-
-var handleSubscribe = function handleSubscribe(e, csrf) {
-  e.preventDefault();
-  var data = "_csrf=".concat(csrf);
-  sendAjax('POST', '/subscribe', data, function (data) {
-    if (!data.status) {
-      handleError("An error occured");
-    } else {
-      handleError("Thanks for subscribing!");
-      setup();
-    }
-
-    ;
-  });
 };
 
 var LoadAds = function LoadAds() {
@@ -118,6 +174,7 @@ var loadAccInfo = function loadAccInfo(csrf) {
 var setup = function setup() {
   sendAjax('GET', '/getToken', null, function (result) {
     loadAccInfo(result.csrfToken);
+    LoadPasswordChangeButton(result.csrfToken);
     loadPiecesFromServer();
   });
 };

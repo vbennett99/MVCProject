@@ -79,6 +79,37 @@ const signup = (request, response) => {
   });
 };
 
+const changePassword = (request, response) => {
+  const req = request;
+  const res = response;
+  
+  // cast to strings to cover up some security flaws
+  req.body.newPass1 = `${req.body.newPass1}`;
+  req.body.newPass2 = `${req.body.newPass2}`;
+  
+  if (req.body.newPass1 !== req.body.newPass2) {
+    return res.status(400).json({ error: 'Passwords do not match.' });
+  }
+  
+  const filter = { _id: req.session.account._id };
+  
+  return Account.AccountModel.generateHash(req.body.newPass1, (salt, hash) => {
+    const newPassData = {
+      salt,
+      password: hash,
+    };
+    
+    Account.AccountModel.findOneAndUpdate(filter, newPassData, {new: true}, (err, data) => {
+      if(err) {
+        console.log(err);
+        return res.status(400).json({ error: 'An error occured' });
+      }
+      
+      return res.json({data, status: true, redirect: '/profile'});
+    });
+  });
+};
+
 const getAccountInfo = (req, res) => {
   const { account } = req.session;
   Account.AccountModel.findByUsername(account.username, (err, data) => {

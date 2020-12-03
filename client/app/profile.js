@@ -25,6 +25,65 @@ const ProfileInfo = (props) => {
   );
 };
 
+const PasswordChangeButton = (csrf) => {
+  return(
+    <a className="passChangeButton"
+       onClick={(e) => LoadPasswordChangeForm(csrf)}
+    >
+      Change Password
+    </a>
+  );
+};
+
+const LoadPasswordChangeButton = (csrf) => {
+   ReactDOM.render(
+    <PasswordChangeButton csrf={csrf} />, document.querySelector("#passwordChange")
+   );
+}
+
+const LoadPasswordChangeForm = (csrf) => {
+  ReactDOM.render(
+    <PasswordChangeForm csrf={csrf}/>, document.querySelector("#piecePreviews")
+  );
+};
+
+const PasswordChangeForm = (props) => {
+  return(
+    <form id="passChangeForm"
+          onSubmit={handlePassChange}
+          name="passChangeForm"
+          action="/changePass"
+          method="POST"
+          className="passChangeForm"
+    >
+      <label htmlFor="newPass1">New Password: </label>
+      <input id="newPass1" type="password" name="newPass1" /><br/>
+      <label htmlFor="newPass2">Confirm New Password: </label>
+      <input id="newPass2" type="password" name="newPass2" /><br/>
+      <input type="hidden" name="_csrf" value={props.csrf} />
+      <input className="formSubmit" type="submit" value="Change Password" />
+    </form>
+  );
+};
+
+const handlePassChange = () => {
+  e.preventDefault();
+  
+  $("#popupMessage").animate({width:'hide'}, 350);
+  
+  if($("#newPass1").val() == '' || $("#newPass2").val() == ''){
+    handleError("Both fields are required.");
+    return false;
+  }
+  
+  if($("#newPass1").val() !== $("#newPass2").val()){
+    handleError("New passwords do not match");
+    return false;
+  }
+  
+  sendAjax('POST', $("#changePassForm").attr("action"), $("#changePassForm").serialize(), redirect);
+};
+
 const PieceList = (props) => {
   if(props.pieces.length === 0){
     return(
@@ -50,23 +109,6 @@ const PieceList = (props) => {
       {pieceNodes}
     </div>
   );
-};
-
-const handleSubscribe = (e, csrf) => {
-  e.preventDefault();
-  
-  let data = `_csrf=${csrf}`;
-  
-  sendAjax('POST', '/subscribe', data, function(data){
-    if(!data.status){
-      handleError("An error occured");
-    }
-    else
-    {
-      handleError("Thanks for subscribing!");
-      setup();
-    };
-  })
 };
 
 const LoadAds = () => {
@@ -104,6 +146,7 @@ const loadAccInfo = (csrf) => {
 const setup = () => {
   sendAjax('GET', '/getToken', null, (result) => {
     loadAccInfo(result.csrfToken);
+    LoadPasswordChangeButton(result.csrfToken);
     loadPiecesFromServer();
   })
 };
